@@ -29,7 +29,7 @@ class DioClient {
   Future<String?> getToken() async => await SharedPrefs.getToken();
 
   
-  Future<Options> _buildAuthHeaders() async {
+  Future<Options> buildAuthHeaders() async {
     final token = await getToken();
     if (token == null || token.isEmpty) {
       throw Failure(message: 'Token missing. Please log in again.');
@@ -76,7 +76,7 @@ class DioClient {
   
   Future<Response> get(String endpoint) async {
     try {
-      final options = await _buildAuthHeaders();
+      final options = await buildAuthHeaders();
       return await dio.get(endpoint, options: options);
     } on DioException catch (e) {
       throw handleDioError(e);
@@ -87,7 +87,7 @@ class DioClient {
 Future<Response> post(String endpoint, Map<String, dynamic> data,
     {bool auth = true}) async {
   try {
-    final options = auth ? await _buildAuthHeaders() : null;
+    final options = auth ? await buildAuthHeaders() : null;
     return await dio.post(endpoint, data: data, options: options);
   } on DioException catch (e) {
     throw handleDioError(e);
@@ -98,7 +98,7 @@ Future<Response> post(String endpoint, Map<String, dynamic> data,
   
   Future<Response> put(String endpoint, Map<String, dynamic> data) async {
     try {
-      final options = await _buildAuthHeaders();
+      final options = await buildAuthHeaders();
       return await dio.put(endpoint, data: data, options: options);
     } on DioException catch (e) {
       throw handleDioError(e);
@@ -108,7 +108,7 @@ Future<Response> post(String endpoint, Map<String, dynamic> data,
   
   Future<Response> delete(String endpoint) async {
     try {
-      final options = await _buildAuthHeaders();
+      final options = await buildAuthHeaders();
       return await dio.delete(endpoint, options: options);
     } on DioException catch (e) {
       throw handleDioError(e);

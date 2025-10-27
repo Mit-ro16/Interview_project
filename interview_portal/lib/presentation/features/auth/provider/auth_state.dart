@@ -1,6 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:interview_portal/core/shared_prefs/shared_prefs.dart';
-import 'package:interview_portal/presentation/features/auth/provider/auth_notifier.dart';
+import 'package:interview_portal/presentation/features/auth/provider/auth_provider.dart';
 
 class AuthState {
   final bool loading;

@@ -11,9 +11,9 @@ class CreateCandidateScreen extends StatefulWidget {
 
 class _CreateCandidateScreenState extends State<CreateCandidateScreen> {
   final _formKey = GlobalKey<FormState>();
-  final _nameController = TextEditingController();
-  final _emailController = TextEditingController();
-  final _educationController = TextEditingController();
+  final nameController = TextEditingController();
+  final emailController = TextEditingController();
+  final educationController = TextEditingController();
 
   bool isLoading = false;
 
@@ -30,9 +30,9 @@ class _CreateCandidateScreenState extends State<CreateCandidateScreen> {
       final response = await dio.post(
         'https://herschel-hyperneurotic-hilma.ngrok-free.dev/TA/uploadCandidate',
         data: {
-          "name": _nameController.text.trim(),
-          "email": _emailController.text.trim(),
-          "education": _educationController.text.trim(),
+          "name": nameController.text.trim(),
+          "email": emailController.text.trim(),
+          "education": educationController.text.trim(),
         },
         options: Options(
           headers: {
@@ -85,7 +85,7 @@ class _CreateCandidateScreenState extends State<CreateCandidateScreen> {
           child: Column(
             children: [
               TextFormField(
-                controller: _nameController,
+                controller: nameController,
                 decoration: const InputDecoration(
                   labelText: 'Name',
                   border: OutlineInputBorder(),
@@ -95,7 +95,7 @@ class _CreateCandidateScreenState extends State<CreateCandidateScreen> {
               ),
               const SizedBox(height: 12),
               TextFormField(
-                controller: _emailController,
+                controller: emailController,
                 decoration: const InputDecoration(
                   labelText: 'Email',
                   border: OutlineInputBorder(),
@@ -104,7 +104,7 @@ class _CreateCandidateScreenState extends State<CreateCandidateScreen> {
               ),
               const SizedBox(height: 12),
               TextFormField(
-                controller: _educationController,
+                controller: educationController,
                 decoration: const InputDecoration(
                   labelText: 'Education',
                   border: OutlineInputBorder(),
