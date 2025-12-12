@@ -5,14 +5,14 @@ import 'package:interview_portal/presentation/features/talent_aq/screens/create_
 import 'package:interview_portal/presentation/features/talent_aq/screens/view_candidates_screen';
 import 'groups_screen.dart';
 
-class DashboardScreen extends StatefulWidget {
-  const DashboardScreen({super.key});
+class TalentAqScreen extends StatefulWidget {
+  const TalentAqScreen({super.key});
 
   @override
-  State<DashboardScreen> createState() => _DashboardScreenState();
+  State<TalentAqScreen> createState() => _TalentAqScreenState();
 }
 
-class _DashboardScreenState extends State<DashboardScreen> {
+class _TalentAqScreenState extends State<TalentAqScreen> {
   List<Map<String, dynamic>> candidates = [];
   bool isLoading = false;
 
@@ -126,7 +126,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Dashboard'),
+        title: const Text('Dashboard', style: TextStyle(color: Colors.white)),
         centerTitle: true,
         backgroundColor: Colors.purple,
       ),

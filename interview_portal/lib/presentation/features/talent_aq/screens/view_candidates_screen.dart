@@ -1,15 +1,15 @@
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:interview_portal/core/shared_prefs/shared_prefs.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:interview_portal/presentation/features/talent_aq/provider/candidate_provider.dart';
 
-class ViewCandidatesScreen extends StatefulWidget {
+class ViewCandidatesScreen extends ConsumerStatefulWidget {
   const ViewCandidatesScreen({super.key});
 
   @override
-  State<ViewCandidatesScreen> createState() => _ViewCandidatesScreenState();
+  ConsumerState<ViewCandidatesScreen> createState() => _ViewCandidatesScreenState();
 }
 
-class _ViewCandidatesScreenState extends State<ViewCandidatesScreen> {
+class _ViewCandidatesScreenState extends ConsumerState<ViewCandidatesScreen> {
   List<dynamic> candidates = [];
   bool isLoading = true;
   String? errorMessage;
@@ -22,47 +22,15 @@ class _ViewCandidatesScreenState extends State<ViewCandidatesScreen> {
 
   Future<void> fetchCandidates() async {
     try {
-      final token = await SharedPrefs.getToken();
-
-      if (token == null || token.isEmpty) {
-        setState(() {
-          errorMessage = "Please log in again. Token not found.";
-          isLoading = false;
-        });
-        return;
-      }
-
-      final dio = Dio();
-      final response = await dio.get(
-        'https://herschel-hyperneurotic-hilma.ngrok-free.dev/TA/view',
-        options: Options(
-          headers: {
-            'Authorization': 'Bearer $token',
-            'Content-Type': 'application/json',
-          },
-        ),
-      );
-
-      if (response.statusCode == 200) {
-        setState(() {
-          candidates = response.data['candidates'] ?? response.data;
-          isLoading = false;
-        });
-      } else {
-        setState(() {
-          errorMessage = 'Unexpected response: ${response.statusCode}';
-          isLoading = false;
-        });
-      }
-    } on DioException catch (e) {
+      final useCase = ref.read(getCandidatesUseCaseProvider);
+      final result = await useCase.call();
       setState(() {
-        errorMessage =
-            e.response?.data['message'] ?? 'Error fetching candidates';
+        candidates = result;
         isLoading = false;
       });
     } catch (e) {
       setState(() {
-        errorMessage = 'Something went wrong: $e';
+        errorMessage = e.toString();
         isLoading = false;
       });
     }
@@ -73,7 +41,7 @@ class _ViewCandidatesScreenState extends State<ViewCandidatesScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Candidate List'),
-        backgroundColor: Colors.indigo,
+        backgroundColor: Colors.purple,
       ),
       body: isLoading
           ? const Center(child: CircularProgressIndicator())
@@ -88,8 +56,7 @@ class _ViewCandidatesScreenState extends State<ViewCandidatesScreen> {
                         itemBuilder: (context, index) {
                           final candidate = candidates[index];
                           return Card(
-                            margin: const EdgeInsets.symmetric(
-                                horizontal: 12, vertical: 6),
+                            margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                             child: ListTile(
                               leading: CircleAvatar(
                                 backgroundColor: Colors.indigo.shade100,
@@ -98,7 +65,9 @@ class _ViewCandidatesScreenState extends State<ViewCandidatesScreen> {
                               title: Text(candidate['name'] ?? 'No Name'),
                               subtitle: Text(
                                 'Email: ${candidate['email'] ?? 'N/A'}\n'
-                                'Education: ${candidate['education'] ?? 'N/A'}',
+                                'Education: ${candidate['education'] ?? 'N/A'}\n'
+                                'Stage: ${candidate['stage'] ?? 'N/A'}\n'
+                                'Result: ${candidate['result'] ?? 'N/A'}',
                               ),
                             ),
                           );

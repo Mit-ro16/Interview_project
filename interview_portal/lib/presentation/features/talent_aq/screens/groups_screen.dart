@@ -40,7 +40,7 @@ class _GroupsScreenState extends State<GroupsScreen> {
     });
   }
 
-  void _showRatingSheet(Map<String, dynamic> candidate) {
+  void showRatingSheet(Map<String, dynamic> candidate) {
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
@@ -184,7 +184,7 @@ class _GroupsScreenState extends State<GroupsScreen> {
                                   subtitle: Text(m['Email']),
                                   trailing: group['status'] == 'Completed'
                                       ? ElevatedButton(
-                                          onPressed: () => _showRatingSheet(m),
+                                          onPressed: () => showRatingSheet(m),
                                           style: ElevatedButton.styleFrom(
                                             backgroundColor: Colors.blue,
                                             minimumSize: const Size(60, 35),

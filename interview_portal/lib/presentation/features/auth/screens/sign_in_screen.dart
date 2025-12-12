@@ -123,14 +123,14 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
                                 Navigator.pushReplacement(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) => DashboardScreen(),
+                                    builder: (context) => TalentAqScreen(),
                                   ),
                                 );
                               } else {
                                 Navigator.pushReplacement(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) => DashboardScreen(),
+                                    builder: (context) => TalentAqScreen(),
                                   ),
                                 );
                               }
